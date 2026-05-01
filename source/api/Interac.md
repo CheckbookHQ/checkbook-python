@@ -1,19 +1,19 @@
-# Paypal 
-Link and manage PayPal accounts used as a destination for outbound payouts, identified by the email or phone number tied to the recipient's PayPal profile.
+# Interac 
+Link and manage Interac e-Transfer accounts for receiving money in Canada, identified by the email or phone number tied to the recipient's Interac profile.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_paypal**](Paypal.md#add_paypal) | **POST** /v3/account/paypal | Create PayPal account
-[**get_paypal**](Paypal.md#get_paypal) | **GET** /v3/account/paypal | Get PayPal accounts
-[**put_paypal**](Paypal.md#put_paypal) | **PUT** /v3/account/paypal/{paypal_id} | Update PayPal account
-[**remove_paypal**](Paypal.md#remove_paypal) | **DELETE** /v3/account/paypal/{paypal_id} | Remove PayPal account
+[**add_interac**](Interac.md#add_interac) | **POST** /v3/account/interac | Create Interac account
+[**get_interac**](Interac.md#get_interac) | **GET** /v3/account/interac | Get Interac accounts
+[**put_interac**](Interac.md#put_interac) | **PUT** /v3/account/interac/{interac_id} | Update Interac account
+[**remove_interac**](Interac.md#remove_interac) | **DELETE** /v3/account/interac/{interac_id} | Remove Interac account
 
 
-# **add_paypal**
-> PaypalAccountResponse add_paypal(create_paypal_request)
+# **add_interac**
+> InteracAccountResponse add_interac(create_interac_request)
 
-Add a new Paypal account for a user
+Add a new Interac account for a user
 
 ### Example
 
@@ -21,8 +21,8 @@ Add a new Paypal account for a user
 
 ```python
 import checkbook
-from checkbook.models.create_paypal_request import CreatePaypalRequest
-from checkbook.models.paypal_account_response import PaypalAccountResponse
+from checkbook.models.create_interac_request import CreateInteracRequest
+from checkbook.models.interac_account_response import InteracAccountResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -36,16 +36,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Paypal(api_client)
-    create_paypal_request = {"username": "john@example.com"}  # CreatePaypalRequest |
+    api_instance = checkbook.Interac(api_client)
+    create_interac_request = {"username": "dschrute"}  # CreateInteracRequest |
 
     try:
-        # Create PayPal account
-        api_response = api_instance.add_paypal(create_paypal_request)
-        print("The response of Paypal->add_paypal:\n")
+        # Create Interac account
+        api_response = api_instance.add_interac(create_interac_request)
+        print("The response of Interac->add_interac:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Paypal->add_paypal: %s\n" % e)
+        print("Exception when calling Interac->add_interac: %s\n" % e)
 ```
 
 
@@ -55,11 +55,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_paypal_request** | [**CreatePaypalRequest**](CreatePaypalRequest.md)|  | 
+ **create_interac_request** | **CreateInteracRequest**|  | 
 
 ### Return type
 
-[**PaypalAccountResponse**](PaypalAccountResponse.md)
+**InteracAccountResponse**
 
 ### Authorization
 
@@ -74,14 +74,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | PaypalAccountResponse |  -  |
+**201** | InteracAccountResponse |  -  |
 **0** | Error |  -  |
 
 
-# **get_paypal**
-> GetPaypalResponse get_paypal()
+# **get_interac**
+> GetInteracResponse get_interac()
 
-Return the Paypal accounts of a user
+Return the Interac accounts of a user
 
 ### Example
 
@@ -89,7 +89,7 @@ Return the Paypal accounts of a user
 
 ```python
 import checkbook
-from checkbook.models.get_paypal_response import GetPaypalResponse
+from checkbook.models.get_interac_response import GetInteracResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -103,15 +103,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Paypal(api_client)
+    api_instance = checkbook.Interac(api_client)
 
     try:
-        # Get PayPal accounts
-        api_response = api_instance.get_paypal()
-        print("The response of Paypal->get_paypal:\n")
+        # Get Interac accounts
+        api_response = api_instance.get_interac()
+        print("The response of Interac->get_interac:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Paypal->get_paypal: %s\n" % e)
+        print("Exception when calling Interac->get_interac: %s\n" % e)
 ```
 
 
@@ -122,7 +122,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetPaypalResponse**](GetPaypalResponse.md)
+**GetInteracResponse**
 
 ### Authorization
 
@@ -137,14 +137,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | GetPaypalResponse |  -  |
+**200** | GetInteracResponse |  -  |
 **0** | Error |  -  |
 
 
-# **put_paypal**
-> put_paypal(paypal_id, update_paypal_request)
+# **put_interac**
+> put_interac(interac_id, update_interac_request)
 
-Update an existing Paypal account
+Update an existing Interac account
 
 ### Example
 
@@ -152,7 +152,7 @@ Update an existing Paypal account
 
 ```python
 import checkbook
-from checkbook.models.update_paypal_request import UpdatePaypalRequest
+from checkbook.models.update_interac_request import UpdateInteracRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -166,15 +166,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Paypal(api_client)
-    paypal_id = "paypal_id_example"  # str |
-    update_paypal_request = {"name": "string"}  # UpdatePaypalRequest |
+    api_instance = checkbook.Interac(api_client)
+    interac_id = "interac_id_example"  # str |
+    update_interac_request = {"name": "string"}  # UpdateInteracRequest |
 
     try:
-        # Update PayPal account
-        api_instance.put_paypal(paypal_id, update_paypal_request)
+        # Update Interac account
+        api_instance.put_interac(interac_id, update_interac_request)
     except Exception as e:
-        print("Exception when calling Paypal->put_paypal: %s\n" % e)
+        print("Exception when calling Interac->put_interac: %s\n" % e)
 ```
 
 
@@ -184,8 +184,8 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **paypal_id** | **str**|  | 
- **update_paypal_request** | [**UpdatePaypalRequest**](UpdatePaypalRequest.md)|  | 
+ **interac_id** | **str**|  | 
+ **update_interac_request** | **UpdateInteracRequest**|  | 
 
 ### Return type
 
@@ -208,10 +208,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **remove_paypal**
-> remove_paypal(paypal_id)
+# **remove_interac**
+> remove_interac(interac_id)
 
-Remove an existing PayPal account
+Remove an existing Interac account
 
 ### Example
 
@@ -232,14 +232,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Paypal(api_client)
-    paypal_id = "paypal_id_example"  # str |
+    api_instance = checkbook.Interac(api_client)
+    interac_id = "interac_id_example"  # str |
 
     try:
-        # Remove PayPal account
-        api_instance.remove_paypal(paypal_id)
+        # Remove Interac account
+        api_instance.remove_interac(interac_id)
     except Exception as e:
-        print("Exception when calling Paypal->remove_paypal: %s\n" % e)
+        print("Exception when calling Interac->remove_interac: %s\n" % e)
 ```
 
 
@@ -249,7 +249,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **paypal_id** | **str**|  | 
+ **interac_id** | **str**|  | 
 
 ### Return type
 

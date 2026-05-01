@@ -57,11 +57,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_venmo_request** | [**CreateVenmoRequest**](CreateVenmoRequest.md)|  | 
+ **create_venmo_request** | **CreateVenmoRequest**|  | 
 
 ### Return type
 
-[**VenmoAccountResponse**](VenmoAccountResponse.md)
+**VenmoAccountResponse**
 
 ### Authorization
 
@@ -124,7 +124,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetVenmoResponse**](GetVenmoResponse.md)
+**GetVenmoResponse**
 
 ### Authorization
 
@@ -187,7 +187,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **venmo_id** | **str**|  | 
- **update_venmo_request** | [**UpdateVenmoRequest**](UpdateVenmoRequest.md)|  | 
+ **update_venmo_request** | **UpdateVenmoRequest**|  | 
 
 ### Return type
 

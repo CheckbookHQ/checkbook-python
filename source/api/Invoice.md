@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetInvoiceResponse**](GetInvoiceResponse.md)
+**GetInvoiceResponse**
 
 ### Authorization
 
@@ -280,7 +280,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetInvoicesResponse**](GetInvoicesResponse.md)
+**GetInvoicesResponse**
 
 ### Authorization
 
@@ -352,11 +352,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_invoice_request** | [**CreateInvoiceRequest**](CreateInvoiceRequest.md)|  | 
+ **create_invoice_request** | **CreateInvoiceRequest**|  | 
 
 ### Return type
 
-[**CreateInvoiceResponse**](CreateInvoiceResponse.md)
+**CreateInvoiceResponse**
 
 ### Authorization
 
@@ -424,11 +424,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pay_invoice_request** | [**PayInvoiceRequest**](PayInvoiceRequest.md)|  | 
+ **pay_invoice_request** | **PayInvoiceRequest**|  | 
 
 ### Return type
 
-[**PayInvoiceResponse**](PayInvoiceResponse.md)
+**PayInvoiceResponse**
 
 ### Authorization
 

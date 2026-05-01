@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckResponse**](GetCheckResponse.md)
+**GetCheckResponse**
 
 ### Authorization
 
@@ -268,7 +268,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckDepositedResponse**](GetCheckDepositedResponse.md)
+**GetCheckDepositedResponse**
 
 ### Authorization
 
@@ -335,7 +335,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckFailedResponse**](GetCheckFailedResponse.md)
+**GetCheckFailedResponse**
 
 ### Authorization
 
@@ -404,7 +404,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckTrackingResponseExpress**](GetCheckTrackingResponseExpress.md)
+**GetCheckTrackingResponseExpress**
 
 ### Authorization
 
@@ -471,7 +471,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**VerifyCheckResponse**](VerifyCheckResponse.md)
+**VerifyCheckResponse**
 
 ### Authorization
 
@@ -561,7 +561,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetChecksResponse**](GetChecksResponse.md)
+**GetChecksResponse**
 
 ### Authorization
 
@@ -627,11 +627,11 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **check_id** | **str**|  | 
- **deposit_check_request** | [**DepositCheckRequest**](DepositCheckRequest.md)|  | 
+ **deposit_check_request** | **DepositCheckRequest**|  | 
 
 ### Return type
 
-[**GetCheckResponse**](GetCheckResponse.md)
+**GetCheckResponse**
 
 ### Authorization
 
@@ -658,7 +658,7 @@ Create a digital payment
 > **Common Errors**
 >
 > - **`Invalid deposit option`:** If deposit options do not include `PRINT`, `MAIL`, or `BANK`, please ensure the payment is funded by a wallet. If you still encounter this error, please contact support@checkbook.io to ensure the specified payment rails are enabled for your account.
-> - **`Amount is larger than $2000 and requires signature`:** Please add a signature to the sender using [`v3/user/signature`](#tag/user/post/v3/user/signature). A signature is required for users to send out payments over $2000.
+> - **`Amount is larger than $2000 and requires signature`:** Please add a signature to the sender using `v3/user/signature`. A signature is required for users to send out payments over $2000.
 
 ### Example
 
@@ -705,11 +705,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_digital_check_request** | [**CreateDigitalCheckRequest**](CreateDigitalCheckRequest.md)|  | 
+ **create_digital_check_request** | **CreateDigitalCheckRequest**|  | 
 
 ### Return type
 
-[**GetCheckResponse**](GetCheckResponse.md)
+**GetCheckResponse**
 
 ### Authorization
 
@@ -775,7 +775,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **check_id** | **str**|  | 
- **endorse_check_request** | [**EndorseCheckRequest**](EndorseCheckRequest.md)|  | 
+ **endorse_check_request** | **EndorseCheckRequest**|  | 
 
 ### Return type
 
@@ -853,11 +853,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_multi_check_request** | [**CreateMultiCheckRequest**](CreateMultiCheckRequest.md)|  | 
+ **create_multi_check_request** | **CreateMultiCheckRequest**|  | 
 
 ### Return type
 
-[**GetCheckResponse**](GetCheckResponse.md)
+**GetCheckResponse**
 
 ### Authorization
 
@@ -996,11 +996,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_physical_check_request** | [**CreatePhysicalCheckRequest**](CreatePhysicalCheckRequest.md)|  | 
+ **create_physical_check_request** | **CreatePhysicalCheckRequest**|  | 
 
 ### Return type
 
-[**GetCheckResponse**](GetCheckResponse.md)
+**GetCheckResponse**
 
 ### Authorization
 
@@ -1070,11 +1070,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **preview_check_request** | [**PreviewCheckRequest**](PreviewCheckRequest.md)|  | 
+ **preview_check_request** | **PreviewCheckRequest**|  | 
 
 ### Return type
 
-[**PreviewCheckResponse**](PreviewCheckResponse.md)
+**PreviewCheckResponse**
 
 ### Authorization
 
@@ -1206,7 +1206,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **check_id** | **str**|  | 
- **trigger_webhook_request** | [**TriggerWebhookRequest**](TriggerWebhookRequest.md)|  | 
+ **trigger_webhook_request** | **TriggerWebhookRequest**|  | 
 
 ### Return type
 

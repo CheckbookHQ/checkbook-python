@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckbookResponse**](GetCheckbookResponse.md)
+**GetCheckbookResponse**
 
 ### Authorization
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckbookTrackingResponseExpress**](GetCheckbookTrackingResponseExpress.md)
+**GetCheckbookTrackingResponseExpress**
 
 ### Authorization
 
@@ -263,7 +263,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetCheckbooksResponse**](GetCheckbooksResponse.md)
+**GetCheckbooksResponse**
 
 ### Authorization
 
@@ -287,7 +287,7 @@ Name | Type | Description  | Notes
 
 Order a new Checkbook  
 > [!NOTE]
-> The address printed on the checkbook is the user's merchant address provided in `merchant` object when calling [`PUT /v3/user`](#tag/user/put/v3/user). If the user does not have a merchant address, the shipping address provided in the `recipient` object will be printed on the checkbook.
+> The address printed on the checkbook is the user's merchant address provided in `merchant` object when calling `PUT /v3/user`. If the user does not have a merchant address, the shipping address provided in the `recipient` object will be printed on the checkbook.
 
 ### Example
 
@@ -334,11 +334,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **base_checkbook_request** | [**BaseCheckbookRequest**](BaseCheckbookRequest.md)|  | 
+ **base_checkbook_request** | **BaseCheckbookRequest**|  | 
 
 ### Return type
 
-[**GetCheckbookResponse**](GetCheckbookResponse.md)
+**GetCheckbookResponse**
 
 ### Authorization
 

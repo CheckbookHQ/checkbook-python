@@ -1,21 +1,21 @@
-# Mailbox 
-
+# Vcc 
+Issue and manage virtual cards — digital, temporary card numbers used for controlled online, in-person, or mobile-wallet spending. Each card provides access to its full transaction history.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_mailbox**](Mailbox.md#create_mailbox) | **POST** /v3/mailbox | Create a mailbox
-[**get_mailbox**](Mailbox.md#get_mailbox) | **GET** /v3/mailbox/{mailbox_id} | Get mailbox info
-[**get_mailbox_item**](Mailbox.md#get_mailbox_item) | **GET** /v3/mailbox/{mailbox_id}/mail/{item_id} | Get mailbox item
-[**get_mailbox_item_attachment**](Mailbox.md#get_mailbox_item_attachment) | **GET** /v3/mailbox/{mailbox_id}/mail/{item_id}/attachment | Get attachment for a mail piece
-[**query_mailbox**](Mailbox.md#query_mailbox) | **GET** /v3/mailbox | Get mailboxes
-[**query_mailbox_item**](Mailbox.md#query_mailbox_item) | **GET** /v3/mailbox/{mailbox_id}/mail | Get mailbox info
+[**delete_vcc**](Vcc.md#delete_vcc) | **DELETE** /v3/account/vcc/{vcc_id} | Remove virtual card
+[**get_vcc_transaction**](Vcc.md#get_vcc_transaction) | **GET** /v3/account/vcc/{vcc_id}/transaction | Get virtual card transactions
+[**get_vcc_transaction_by_id**](Vcc.md#get_vcc_transaction_by_id) | **GET** /v3/account/vcc/{vcc_id}/transaction/{transaction_id} | Get virtual card transaction by ID
+[**get_vccs**](Vcc.md#get_vccs) | **GET** /v3/account/vcc | Get virtual cards
+[**post_vcc**](Vcc.md#post_vcc) | **POST** /v3/account/vcc | Create virtual card
+[**put_vcc**](Vcc.md#put_vcc) | **PUT** /v3/account/vcc/{vcc_id} | Update virtual card
 
 
-# **create_mailbox**
-> CreateMailboxResponse create_mailbox()
+# **delete_vcc**
+> delete_vcc(vcc_id)
 
-Create a new mailbox
+Remove the specified vcc
 
 ### Example
 
@@ -23,7 +23,6 @@ Create a new mailbox
 
 ```python
 import checkbook
-from checkbook.models.create_mailbox_response import CreateMailboxResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -37,15 +36,233 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
+    api_instance = checkbook.Vcc(api_client)
+    vcc_id = "vcc_id_example"  # str |
 
     try:
-        # Create a mailbox
-        api_response = api_instance.create_mailbox()
-        print("The response of Mailbox->create_mailbox:\n")
+        # Remove virtual card
+        api_instance.delete_vcc(vcc_id)
+    except Exception as e:
+        print("Exception when calling Vcc->delete_vcc: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **vcc_id** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | No response body. |  -  |
+**0** | Error |  -  |
+
+
+# **get_vcc_transaction**
+> VccTransactionsResponse get_vcc_transaction(vcc_id, beta=beta, end_date=end_date, page=page, per_page=per_page, start_date=start_date)
+
+Get the transactions for the specified VCC
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.vcc_transactions_response import VccTransactionsResponse
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Vcc(api_client)
+    vcc_id = "vcc_id_example"  # str |
+    beta = False  # bool |  (optional) (default to False)
+    end_date = "2013-10-20"  # date | End date (optional)
+    page = 1  # int | Page number (optional) (default to 1)
+    per_page = 50  # int | Items per page (optional) (default to 50)
+    start_date = "2013-10-20"  # date | Start date (optional)
+
+    try:
+        # Get virtual card transactions
+        api_response = api_instance.get_vcc_transaction(
+            vcc_id,
+            beta=beta,
+            end_date=end_date,
+            page=page,
+            per_page=per_page,
+            start_date=start_date,
+        )
+        print("The response of Vcc->get_vcc_transaction:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Mailbox->create_mailbox: %s\n" % e)
+        print("Exception when calling Vcc->get_vcc_transaction: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **vcc_id** | **str**|  | 
+ **beta** | **bool**|  | [optional] [default to False]
+ **end_date** | **date**| End date | [optional] 
+ **page** | **int**| Page number | [optional] [default to 1]
+ **per_page** | **int**| Items per page | [optional] [default to 50]
+ **start_date** | **date**| Start date | [optional] 
+
+### Return type
+
+**VccTransactionsResponse**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | VccTransactionsResponse |  -  |
+**0** | Error |  -  |
+
+
+# **get_vcc_transaction_by_id**
+> VccTransaction get_vcc_transaction_by_id(vcc_id, transaction_id)
+
+Get the requested transaction for the specified VCC
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.vcc_transaction import VccTransaction
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Vcc(api_client)
+    vcc_id = "vcc_id_example"  # str |
+    transaction_id = "transaction_id_example"  # str |
+
+    try:
+        # Get virtual card transaction by ID
+        api_response = api_instance.get_vcc_transaction_by_id(vcc_id, transaction_id)
+        print("The response of Vcc->get_vcc_transaction_by_id:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling Vcc->get_vcc_transaction_by_id: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **vcc_id** | **str**|  | 
+ **transaction_id** | **str**|  | 
+
+### Return type
+
+**VccTransaction**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | VccTransaction |  -  |
+**0** | Error |  -  |
+
+
+# **get_vccs**
+> VccQueryResponse get_vccs()
+
+Return the virtual cards
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.vcc_query_response import VccQueryResponse
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Vcc(api_client)
+
+    try:
+        # Get virtual cards
+        api_response = api_instance.get_vccs()
+        print("The response of Vcc->get_vccs:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling Vcc->get_vccs: %s\n" % e)
 ```
 
 
@@ -56,7 +273,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**CreateMailboxResponse**](CreateMailboxResponse.md)
+**VccQueryResponse**
 
 ### Authorization
 
@@ -71,14 +288,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | CreateMailboxResponse |  -  |
+**200** | VccQueryResponse |  -  |
 **0** | Error |  -  |
 
 
-# **get_mailbox**
-> CreateMailboxResponse get_mailbox(mailbox_id)
+# **post_vcc**
+> CreateVccResponse post_vcc(create_vcc_request)
 
-Get mailbox details
+Add a new vcc
 
 ### Example
 
@@ -86,7 +303,8 @@ Get mailbox details
 
 ```python
 import checkbook
-from checkbook.models.create_mailbox_response import CreateMailboxResponse
+from checkbook.models.create_vcc_request import CreateVccRequest
+from checkbook.models.create_vcc_response import CreateVccResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -100,16 +318,20 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
-    mailbox_id = "mailbox_id_example"  # str |
+    api_instance = checkbook.Vcc(api_client)
+    create_vcc_request = {
+        "address": null,
+        "email": "john@example.com",
+        "phone": null,
+    }  # CreateVccRequest |
 
     try:
-        # Get mailbox info
-        api_response = api_instance.get_mailbox(mailbox_id)
-        print("The response of Mailbox->get_mailbox:\n")
+        # Create virtual card
+        api_response = api_instance.post_vcc(create_vcc_request)
+        print("The response of Vcc->post_vcc:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Mailbox->get_mailbox: %s\n" % e)
+        print("Exception when calling Vcc->post_vcc: %s\n" % e)
 ```
 
 
@@ -119,11 +341,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **mailbox_id** | **str**|  | 
+ **create_vcc_request** | **CreateVccRequest**|  | 
 
 ### Return type
 
-[**CreateMailboxResponse**](CreateMailboxResponse.md)
+**CreateVccResponse**
 
 ### Authorization
 
@@ -131,21 +353,21 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | CreateMailboxResponse |  -  |
+**201** | CreateVccResponse |  -  |
 **0** | Error |  -  |
 
 
-# **get_mailbox_item**
-> MailResponse get_mailbox_item(mailbox_id, item_id)
+# **put_vcc**
+> put_vcc(vcc_id, update_vcc_request)
 
-Get mailbox item
+Update the specified vcc
 
 ### Example
 
@@ -153,7 +375,7 @@ Get mailbox item
 
 ```python
 import checkbook
-from checkbook.models.mail_response import MailResponse
+from checkbook.models.update_vcc_request import UpdateVccRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -167,17 +389,19 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
-    mailbox_id = "mailbox_id_example"  # str |
-    item_id = "item_id_example"  # str |
+    api_instance = checkbook.Vcc(api_client)
+    vcc_id = "vcc_id_example"  # str |
+    update_vcc_request = {
+        "address": null,
+        "default": null,
+        "name": null,
+    }  # UpdateVccRequest |
 
     try:
-        # Get mailbox item
-        api_response = api_instance.get_mailbox_item(mailbox_id, item_id)
-        print("The response of Mailbox->get_mailbox_item:\n")
-        pprint(api_response)
+        # Update virtual card
+        api_instance.put_vcc(vcc_id, update_vcc_request)
     except Exception as e:
-        print("Exception when calling Mailbox->get_mailbox_item: %s\n" % e)
+        print("Exception when calling Vcc->put_vcc: %s\n" % e)
 ```
 
 
@@ -187,12 +411,12 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **mailbox_id** | **str**|  | 
- **item_id** | **str**|  | 
+ **vcc_id** | **str**|  | 
+ **update_vcc_request** | **UpdateVccRequest**|  | 
 
 ### Return type
 
-[**MailResponse**](MailResponse.md)
+void (empty response body)
 
 ### Authorization
 
@@ -200,235 +424,14 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | MailResponse |  -  |
-**0** | Error |  -  |
-
-
-# **get_mailbox_item_attachment**
-> Error get_mailbox_item_attachment(mailbox_id, item_id)
-
-Get mailbox item
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.error import Error
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
-    mailbox_id = "mailbox_id_example"  # str |
-    item_id = "item_id_example"  # str |
-
-    try:
-        # Get attachment for a mail piece
-        api_response = api_instance.get_mailbox_item_attachment(mailbox_id, item_id)
-        print("The response of Mailbox->get_mailbox_item_attachment:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling Mailbox->get_mailbox_item_attachment: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mailbox_id** | **str**|  | 
- **item_id** | **str**|  | 
-
-### Return type
-
-[**Error**](Error.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**0** | Error |  -  |
-
-
-# **query_mailbox**
-> GetMailboxesResponse query_mailbox(page=page, per_page=per_page)
-
-Return the mailboxes for the current user
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.get_mailboxes_response import GetMailboxesResponse
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
-    page = 1  # int | Page number (optional) (default to 1)
-    per_page = 50  # int | Items per page (optional) (default to 50)
-
-    try:
-        # Get mailboxes
-        api_response = api_instance.query_mailbox(page=page, per_page=per_page)
-        print("The response of Mailbox->query_mailbox:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling Mailbox->query_mailbox: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **page** | **int**| Page number | [optional] [default to 1]
- **per_page** | **int**| Items per page | [optional] [default to 50]
-
-### Return type
-
-[**GetMailboxesResponse**](GetMailboxesResponse.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | GetMailboxesResponse |  -  |
-**0** | Error |  -  |
-
-
-# **query_mailbox_item**
-> GetMailResponse query_mailbox_item(mailbox_id, end_date=end_date, page=page, per_page=per_page, q=q, start_date=start_date)
-
-Get mailbox items
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.get_mail_response import GetMailResponse
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.Mailbox(api_client)
-    mailbox_id = "mailbox_id_example"  # str |
-    end_date = "2013-10-20"  # date | End date (optional)
-    page = 1  # int | Page number (optional) (default to 1)
-    per_page = 50  # int | Items per page (optional) (default to 50)
-    q = "payment"  # str | Query (optional)
-    start_date = "2013-10-20"  # date | Start date (optional)
-
-    try:
-        # Get mailbox info
-        api_response = api_instance.query_mailbox_item(
-            mailbox_id,
-            end_date=end_date,
-            page=page,
-            per_page=per_page,
-            q=q,
-            start_date=start_date,
-        )
-        print("The response of Mailbox->query_mailbox_item:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling Mailbox->query_mailbox_item: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mailbox_id** | **str**|  | 
- **end_date** | **date**| End date | [optional] 
- **page** | **int**| Page number | [optional] [default to 1]
- **per_page** | **int**| Items per page | [optional] [default to 50]
- **q** | **str**| Query | [optional] 
- **start_date** | **date**| Start date | [optional] 
-
-### Return type
-
-[**GetMailResponse**](GetMailResponse.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | GetMailResponse |  -  |
+**200** | No response body. |  -  |
 **0** | Error |  -  |
 
 

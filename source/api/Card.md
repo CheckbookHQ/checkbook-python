@@ -118,7 +118,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetCardsResponse**](GetCardsResponse.md)
+**GetCardsResponse**
 
 ### Authorization
 
@@ -187,11 +187,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_card_request** | [**CreateCardRequest**](CreateCardRequest.md)|  | 
+ **create_card_request** | **CreateCardRequest**|  | 
 
 ### Return type
 
-[**CreateCardResponse**](CreateCardResponse.md)
+**CreateCardResponse**
 
 ### Authorization
 
@@ -254,7 +254,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **card_id** | **str**|  | 
- **update_card_request** | [**UpdateCardRequest**](UpdateCardRequest.md)|  | 
+ **update_card_request** | **UpdateCardRequest**|  | 
 
 ### Return type
 

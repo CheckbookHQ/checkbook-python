@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetSubscriptionResponse**](GetSubscriptionResponse.md)
+**GetSubscriptionResponse**
 
 ### Authorization
 
@@ -214,7 +214,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetSubscriptionsResponse**](GetSubscriptionsResponse.md)
+**GetSubscriptionsResponse**
 
 ### Authorization
 
@@ -292,11 +292,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_check_subscription_request** | [**CreateCheckSubscriptionRequest**](CreateCheckSubscriptionRequest.md)|  | 
+ **create_check_subscription_request** | **CreateCheckSubscriptionRequest**|  | 
 
 ### Return type
 
-[**CreateSubscriptionResponse**](CreateSubscriptionResponse.md)
+**CreateSubscriptionResponse**
 
 ### Authorization
 
@@ -375,11 +375,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_invoice_subscription_request** | [**CreateInvoiceSubscriptionRequest**](CreateInvoiceSubscriptionRequest.md)|  | 
+ **create_invoice_subscription_request** | **CreateInvoiceSubscriptionRequest**|  | 
 
 ### Return type
 
-[**CreateSubscriptionResponse**](CreateSubscriptionResponse.md)
+**CreateSubscriptionResponse**
 
 ### Authorization
 
@@ -445,7 +445,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **subscription_id** | **str**|  | 
- **update_subscription_request** | [**UpdateSubscriptionRequest**](UpdateSubscriptionRequest.md)|  | 
+ **update_subscription_request** | **UpdateSubscriptionRequest**|  | 
 
 ### Return type
 

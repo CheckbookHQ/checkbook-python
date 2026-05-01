@@ -1,24 +1,25 @@
-# Bank 
-Link and manage bank accounts used as a funding source or destination for ACH, RTP, and FedNow payments. Accounts can be linked to users instantly via Plaid or manually with a routing and account number; manually linked accounts are verified with micro-deposits.
+# User 
+Onboard and manage users in your marketplace. Use this resource to manage a user's API keys, add KYC/KYB information, check user statuses, and customize their profile. Users do not need to sign in to Checkbook or maintain their own account to transact.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_bank**](Bank.md#delete_bank) | **DELETE** /v3/account/bank/{bank_id} | Remove bank account
-[**get_bank_institutions**](Bank.md#get_bank_institutions) | **GET** /v3/account/bank/institutions | Get institutions
-[**get_banks**](Bank.md#get_banks) | **GET** /v3/account/bank | Get bank accounts
-[**post_bank**](Bank.md#post_bank) | **POST** /v3/account/bank | Add bank account
-[**post_bank_iav**](Bank.md#post_bank_iav) | **POST** /v3/account/bank/iav | Add bank account with IAV
-[**post_bank_plaid**](Bank.md#post_bank_plaid) | **POST** /v3/account/bank/iav/plaid | Retrieve bank account with Plaid
-[**post_bank_release**](Bank.md#post_bank_release) | **POST** /v3/account/bank/release | Release micro-deposits
-[**post_bank_verify**](Bank.md#post_bank_verify) | **POST** /v3/account/bank/verify | Verify micro-deposits
-[**put_bank**](Bank.md#put_bank) | **PUT** /v3/account/bank/{bank_id} | Update bank account
+[**delete_api_key**](User.md#delete_api_key) | **DELETE** /v3/user/api_key/{key_id} | Delete API key for user
+[**delete_user**](User.md#delete_user) | **DELETE** /v3/user/{id} | Remove marketplace user
+[**get_api_keys**](User.md#get_api_keys) | **GET** /v3/user/api_key | Get API keys for user
+[**get_user**](User.md#get_user) | **GET** /v3/user | Get user details
+[**get_users**](User.md#get_users) | **GET** /v3/user/list | Get marketplace users
+[**new_api_key**](User.md#new_api_key) | **POST** /v3/user/api_key | Generate new API Key for user
+[**post_user**](User.md#post_user) | **POST** /v3/user | Create user
+[**post_user_signature**](User.md#post_user_signature) | **POST** /v3/user/signature | Add signature for user
+[**put_user**](User.md#put_user) | **PUT** /v3/user | Update user
+[**put_user_webhook**](User.md#put_user_webhook) | **PUT** /v3/user/webhook | Update a sandbox user status
 
 
-# **delete_bank**
-> delete_bank(bank_id)
+# **delete_api_key**
+> delete_api_key(key_id)
 
-Remove the specified bank account
+Delete API key for user
 
 ### Example
 
@@ -39,14 +40,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    bank_id = "bank_id_example"  # str |
+    api_instance = checkbook.User(api_client)
+    key_id = "key_id_example"  # str |
 
     try:
-        # Remove bank account
-        api_instance.delete_bank(bank_id)
+        # Delete API key for user
+        api_instance.delete_api_key(key_id)
     except Exception as e:
-        print("Exception when calling Bank->delete_bank: %s\n" % e)
+        print("Exception when calling User->delete_api_key: %s\n" % e)
 ```
 
 
@@ -56,7 +57,75 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bank_id** | **str**|  | 
+ **key_id** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No response body. |  -  |
+**0** | Error |  -  |
+
+
+# **delete_user**
+> delete_user(id)
+
+Delete a marketplace user. 
+> [!NOTE]
+> **Tip**  
+> The id that gets passed in needs to be the Checkbook system generated `id`, not the `user_id`. 
+> Users with active transactions may not be deleted.
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.User(api_client)
+    id = "id_example"  # str |
+
+    try:
+        # Remove marketplace user
+        api_instance.delete_user(id)
+    except Exception as e:
+        print("Exception when calling User->delete_user: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**|  | 
 
 ### Return type
 
@@ -79,10 +148,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **get_bank_institutions**
-> GetInstitutionsResponse get_bank_institutions()
+# **get_api_keys**
+> APIKeyListResponse get_api_keys()
 
-Return a list of our supported institutions for instant account verification
+Return the API keys for the user
 
 ### Example
 
@@ -90,7 +159,7 @@ Return a list of our supported institutions for instant account verification
 
 ```python
 import checkbook
-from checkbook.models.get_institutions_response import GetInstitutionsResponse
+from checkbook.models.api_key_list_response import APIKeyListResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -104,15 +173,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
+    api_instance = checkbook.User(api_client)
 
     try:
-        # Get institutions
-        api_response = api_instance.get_bank_institutions()
-        print("The response of Bank->get_bank_institutions:\n")
+        # Get API keys for user
+        api_response = api_instance.get_api_keys()
+        print("The response of User->get_api_keys:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Bank->get_bank_institutions: %s\n" % e)
+        print("Exception when calling User->get_api_keys: %s\n" % e)
 ```
 
 
@@ -123,7 +192,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetInstitutionsResponse**](GetInstitutionsResponse.md)
+**APIKeyListResponse**
 
 ### Authorization
 
@@ -138,14 +207,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | GetInstitutionsResponse |  -  |
+**200** | Response fields for api key list |  -  |
 **0** | Error |  -  |
 
 
-# **get_banks**
-> GetBanksResponse get_banks()
+# **get_user**
+> GetUserResponse get_user()
 
-Get the bank accounts for a user
+Get user information
 
 ### Example
 
@@ -153,7 +222,7 @@ Get the bank accounts for a user
 
 ```python
 import checkbook
-from checkbook.models.get_banks_response import GetBanksResponse
+from checkbook.models.get_user_response import GetUserResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -167,15 +236,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
+    api_instance = checkbook.User(api_client)
 
     try:
-        # Get bank accounts
-        api_response = api_instance.get_banks()
-        print("The response of Bank->get_banks:\n")
+        # Get user details
+        api_response = api_instance.get_user()
+        print("The response of User->get_user:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Bank->get_banks: %s\n" % e)
+        print("Exception when calling User->get_user: %s\n" % e)
 ```
 
 
@@ -186,7 +255,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetBanksResponse**](GetBanksResponse.md)
+**GetUserResponse**
 
 ### Authorization
 
@@ -201,14 +270,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | GetBanksResponse |  -  |
+**200** | Response fields for user retrieval |  -  |
 **0** | Error |  -  |
 
 
-# **post_bank**
-> CreateBankResponse post_bank(create_bank_request)
+# **get_users**
+> UserQueryResponse get_users(page=page, per_page=per_page, q=q, sort=sort)
 
-Add a new bank account
+Return the marketplace users
 
 ### Example
 
@@ -216,8 +285,7 @@ Add a new bank account
 
 ```python
 import checkbook
-from checkbook.models.create_bank_request import CreateBankRequest
-from checkbook.models.create_bank_response import CreateBankResponse
+from checkbook.models.user_query_response import UserQueryResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -231,21 +299,21 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    create_bank_request = {
-        "account": "428100000",
-        "name": "Checking account",
-        "routing": "021000021",
-        "type": "CHECKING",
-    }  # CreateBankRequest |
+    api_instance = checkbook.User(api_client)
+    page = 1  # int | Page number (optional) (default to 1)
+    per_page = 50  # int | Items per page (optional) (default to 50)
+    q = "q_example"  # str | Query (optional)
+    sort = "sort_example"  # str | Sort (optional)
 
     try:
-        # Add bank account
-        api_response = api_instance.post_bank(create_bank_request)
-        print("The response of Bank->post_bank:\n")
+        # Get marketplace users
+        api_response = api_instance.get_users(
+            page=page, per_page=per_page, q=q, sort=sort
+        )
+        print("The response of User->get_users:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Bank->post_bank: %s\n" % e)
+        print("Exception when calling User->get_users: %s\n" % e)
 ```
 
 
@@ -255,11 +323,82 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_bank_request** | [**CreateBankRequest**](CreateBankRequest.md)|  | 
+ **page** | **int**| Page number | [optional] [default to 1]
+ **per_page** | **int**| Items per page | [optional] [default to 50]
+ **q** | **str**| Query | [optional] 
+ **sort** | **str**| Sort | [optional] 
 
 ### Return type
 
-[**CreateBankResponse**](CreateBankResponse.md)
+**UserQueryResponse**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Response fields for user query |  -  |
+**0** | Error |  -  |
+
+
+# **new_api_key**
+> NewApiKeyResponse new_api_key(new_api_key_request)
+
+Generate new API keys for the user
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.new_api_key_request import NewApiKeyRequest
+from checkbook.models.new_api_key_response import NewApiKeyResponse
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.User(api_client)
+    new_api_key_request = {"expiration_date": null, "name": null}  # NewApiKeyRequest |
+
+    try:
+        # Generate new API Key for user
+        api_response = api_instance.new_api_key(new_api_key_request)
+        print("The response of User->new_api_key:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling User->new_api_key: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **new_api_key_request** | **NewApiKeyRequest**|  | 
+
+### Return type
+
+**NewApiKeyResponse**
 
 ### Authorization
 
@@ -274,86 +413,18 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | CreateBankResponse |  -  |
+**201** | NewApiKeyResponse |  -  |
 **0** | Error |  -  |
 
 
-# **post_bank_iav**
-> IAVLoginResponse post_bank_iav(post_bank_iav_request)
+# **post_user**
+> CreateUserResponse post_user(create_user_request)
 
-Add a new bank account with instant account verification
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.iav_login_response import IAVLoginResponse
-from checkbook.models.post_bank_iav_request import PostBankIavRequest
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    post_bank_iav_request = {"institution_id": "string"}  # PostBankIavRequest |
-
-    try:
-        # Add bank account with IAV
-        api_response = api_instance.post_bank_iav(post_bank_iav_request)
-        print("The response of Bank->post_bank_iav:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling Bank->post_bank_iav: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **post_bank_iav_request** | [**PostBankIavRequest**](PostBankIavRequest.md)|  | 
-
-### Return type
-
-[**IAVLoginResponse**](IAVLoginResponse.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**201** | IAVLoginResponse |  -  |
-**0** | Error |  -  |
-
-
-# **post_bank_plaid**
-> IAVPlaidResponse post_bank_plaid(iav_plaid_request)
-
-Retrieve the bank account(s) associated with the Plaid token.  
+Create a new marketplace user.  
 > [!NOTE]
 > **Common Errors**
 >
-> - **`User login is required`** or **`Token Expired`**: The specified Plaid processor token has expired and a new token is required.
+> - **`403: FORBIDDEN`**: Please ensure you are using the Marketplace Owner's keys. If the `403` error persists, it may indicate that marketplace is not enabled for your account or you do not have an active billing bank account onboarded. Contact support@checkbook.io for more details.
 
 ### Example
 
@@ -361,8 +432,8 @@ Retrieve the bank account(s) associated with the Plaid token.
 
 ```python
 import checkbook
-from checkbook.models.iav_plaid_request import IAVPlaidRequest
-from checkbook.models.iav_plaid_response import IAVPlaidResponse
+from checkbook.models.create_user_request import CreateUserRequest
+from checkbook.models.create_user_response import CreateUserResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -376,16 +447,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    iav_plaid_request = {"processor_token": "string"}  # IAVPlaidRequest |
+    api_instance = checkbook.User(api_client)
+    create_user_request = {"name": "string", "user_id": "string"}  # CreateUserRequest |
 
     try:
-        # Retrieve bank account with Plaid
-        api_response = api_instance.post_bank_plaid(iav_plaid_request)
-        print("The response of Bank->post_bank_plaid:\n")
+        # Create user
+        api_response = api_instance.post_user(create_user_request)
+        print("The response of User->post_user:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Bank->post_bank_plaid: %s\n" % e)
+        print("Exception when calling User->post_user: %s\n" % e)
 ```
 
 
@@ -395,11 +466,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **iav_plaid_request** | [**IAVPlaidRequest**](IAVPlaidRequest.md)|  | 
+ **create_user_request** | **CreateUserRequest**|  | 
 
 ### Return type
 
-[**IAVPlaidResponse**](IAVPlaidResponse.md)
+**CreateUserResponse**
 
 ### Authorization
 
@@ -414,14 +485,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | IAVPlaidResponse |  -  |
+**201** | Response fields for user creation |  -  |
 **0** | Error |  -  |
 
 
-# **post_bank_release**
-> post_bank_release(bank_release_request)
+# **post_user_signature**
+> post_user_signature(signature_request)
 
-Release the micro-deposits for a bank account
+Add signature
 
 ### Example
 
@@ -429,7 +500,7 @@ Release the micro-deposits for a bank account
 
 ```python
 import checkbook
-from checkbook.models.bank_release_request import BankReleaseRequest
+from checkbook.models.signature_request import SignatureRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -443,14 +514,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    bank_release_request = {"account": "string"}  # BankReleaseRequest |
+    api_instance = checkbook.User(api_client)
+    signature_request = {"signature": "string"}  # SignatureRequest |
 
     try:
-        # Release micro-deposits
-        api_instance.post_bank_release(bank_release_request)
+        # Add signature for user
+        api_instance.post_user_signature(signature_request)
     except Exception as e:
-        print("Exception when calling Bank->post_bank_release: %s\n" % e)
+        print("Exception when calling User->post_user_signature: %s\n" % e)
 ```
 
 
@@ -460,7 +531,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bank_release_request** | [**BankReleaseRequest**](BankReleaseRequest.md)|  | 
+ **signature_request** | **SignatureRequest**|  | 
 
 ### Return type
 
@@ -483,10 +554,13 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **post_bank_verify**
-> post_bank_verify(bank_verify_request)
+# **put_user**
+> put_user(update_user_request)
 
-Verify the micro-deposits for a bank account
+Update existing user information.  
+> [!NOTE]
+> **Note**  
+> This endpoint is used for updating a user's KYB/KYC information. Checkbook validates this information asynchronously.
 
 ### Example
 
@@ -494,7 +568,7 @@ Verify the micro-deposits for a bank account
 
 ```python
 import checkbook
-from checkbook.models.bank_verify_request import BankVerifyRequest
+from checkbook.models.update_user_request import UpdateUserRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -508,18 +582,21 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    bank_verify_request = {
-        "account": "efdbaaaa17b244abba084e6c2ccfc990",
-        "amount_1": 0.03,
-        "amount_2": 0.05,
-    }  # BankVerifyRequest |
+    api_instance = checkbook.User(api_client)
+    update_user_request = {
+        "bank": null,
+        "brand": null,
+        "developer": null,
+        "merchant": null,
+        "payment": null,
+        "user": null,
+    }  # UpdateUserRequest |
 
     try:
-        # Verify micro-deposits
-        api_instance.post_bank_verify(bank_verify_request)
+        # Update user
+        api_instance.put_user(update_user_request)
     except Exception as e:
-        print("Exception when calling Bank->post_bank_verify: %s\n" % e)
+        print("Exception when calling User->put_user: %s\n" % e)
 ```
 
 
@@ -529,7 +606,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bank_verify_request** | [**BankVerifyRequest**](BankVerifyRequest.md)|  | 
+ **update_user_request** | **UpdateUserRequest**|  | 
 
 ### Return type
 
@@ -552,10 +629,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **put_bank**
-> put_bank(bank_id, update_bank_request)
+# **put_user_webhook**
+> put_user_webhook(trigger_user_webhook_request)
 
-Update an existing bank account
+Update a user's status in the sandbox environment.
 
 ### Example
 
@@ -563,7 +640,7 @@ Update an existing bank account
 
 ```python
 import checkbook
-from checkbook.models.update_bank_request import UpdateBankRequest
+from checkbook.models.trigger_user_webhook_request import TriggerUserWebhookRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -577,19 +654,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Bank(api_client)
-    bank_id = "bank_id_example"  # str |
-    update_bank_request = {
-        "billing": true,
-        "default": true,
-        "name": "Checking account",
-    }  # UpdateBankRequest |
+    api_instance = checkbook.User(api_client)
+    trigger_user_webhook_request = {
+        "status": "UNVERIFIED"
+    }  # TriggerUserWebhookRequest |
 
     try:
-        # Update bank account
-        api_instance.put_bank(bank_id, update_bank_request)
+        # Update a sandbox user status
+        api_instance.put_user_webhook(trigger_user_webhook_request)
     except Exception as e:
-        print("Exception when calling Bank->put_bank: %s\n" % e)
+        print("Exception when calling User->put_user_webhook: %s\n" % e)
 ```
 
 
@@ -599,8 +673,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **bank_id** | **str**|  | 
- **update_bank_request** | [**UpdateBankRequest**](UpdateBankRequest.md)|  | 
+ **trigger_user_webhook_request** | **TriggerUserWebhookRequest**|  | 
 
 ### Return type
 
@@ -619,7 +692,7 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | No response body. |  -  |
+**204** | No response body. |  -  |
 **0** | Error |  -  |
 
 

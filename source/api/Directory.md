@@ -62,11 +62,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_directory_request** | [**CreateDirectoryRequest**](CreateDirectoryRequest.md)|  | 
+ **create_directory_request** | **CreateDirectoryRequest**|  | 
 
 ### Return type
 
-[**CreateDirectoryResponse**](CreateDirectoryResponse.md)
+**CreateDirectoryResponse**
 
 ### Authorization
 
@@ -139,11 +139,11 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **directory_id** | **str**|  | 
- **create_directory_bank_request** | [**CreateDirectoryBankRequest**](CreateDirectoryBankRequest.md)|  | 
+ **create_directory_bank_request** | **CreateDirectoryBankRequest**|  | 
 
 ### Return type
 
-[**CreateDirectoryBankResponse**](CreateDirectoryBankResponse.md)
+**CreateDirectoryBankResponse**
 
 ### Authorization
 
@@ -215,11 +215,11 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **directory_id** | **str**|  | 
- **create_directory_card_request** | [**CreateDirectoryCardRequest**](CreateDirectoryCardRequest.md)|  | 
+ **create_directory_card_request** | **CreateDirectoryCardRequest**|  | 
 
 ### Return type
 
-[**CreateDirectoryCardResponse**](CreateDirectoryCardResponse.md)
+**CreateDirectoryCardResponse**
 
 ### Authorization
 
@@ -420,7 +420,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**GetDirectoriesResponse**](GetDirectoriesResponse.md)
+**GetDirectoriesResponse**
 
 ### Authorization
 
@@ -487,7 +487,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **directory_id** | **str**|  | 
- **update_directory_request** | [**UpdateDirectoryRequest**](UpdateDirectoryRequest.md)|  | 
+ **update_directory_request** | **UpdateDirectoryRequest**|  | 
 
 ### Return type
 

@@ -1,19 +1,19 @@
-# Interac 
-Link and manage Interac e-Transfer accounts for receiving money in Canada, identified by the email or phone number tied to the recipient's Interac profile.
+# Wire 
+Link and manage wire accounts used as the destination for outbound wire transfers, intended for time-sensitive or high-value payments. Wires submitted before the 3:00 PM PT cutoff settle the same day.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_interac**](Interac.md#add_interac) | **POST** /v3/account/interac | Create Interac account
-[**get_interac**](Interac.md#get_interac) | **GET** /v3/account/interac | Get Interac accounts
-[**put_interac**](Interac.md#put_interac) | **PUT** /v3/account/interac/{interac_id} | Update Interac account
-[**remove_interac**](Interac.md#remove_interac) | **DELETE** /v3/account/interac/{interac_id} | Remove Interac account
+[**add_wire**](Wire.md#add_wire) | **POST** /v3/account/wire | Create wire account
+[**get_wire**](Wire.md#get_wire) | **GET** /v3/account/wire | Get wire accounts
+[**put_wire**](Wire.md#put_wire) | **PUT** /v3/account/wire/{account_id} | Update Wire account
+[**remove_wire**](Wire.md#remove_wire) | **DELETE** /v3/account/wire/{wire_id} | Remove wire account
 
 
-# **add_interac**
-> InteracAccountResponse add_interac(create_interac_request)
+# **add_wire**
+> WireAccountResponse add_wire(create_wire_request)
 
-Add a new Interac account for a user
+Create a new wire account
 
 ### Example
 
@@ -21,8 +21,8 @@ Add a new Interac account for a user
 
 ```python
 import checkbook
-from checkbook.models.create_interac_request import CreateInteracRequest
-from checkbook.models.interac_account_response import InteracAccountResponse
+from checkbook.models.create_wire_request import CreateWireRequest
+from checkbook.models.wire_account_response import WireAccountResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -36,16 +36,21 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Interac(api_client)
-    create_interac_request = {"username": "dschrute"}  # CreateInteracRequest |
+    api_instance = checkbook.Wire(api_client)
+    create_wire_request = {
+        "account": "428100000",
+        "name": "Checking account",
+        "routing": "021000021",
+        "type": "CHECKING",
+    }  # CreateWireRequest |
 
     try:
-        # Create Interac account
-        api_response = api_instance.add_interac(create_interac_request)
-        print("The response of Interac->add_interac:\n")
+        # Create wire account
+        api_response = api_instance.add_wire(create_wire_request)
+        print("The response of Wire->add_wire:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Interac->add_interac: %s\n" % e)
+        print("Exception when calling Wire->add_wire: %s\n" % e)
 ```
 
 
@@ -55,11 +60,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_interac_request** | [**CreateInteracRequest**](CreateInteracRequest.md)|  | 
+ **create_wire_request** | **CreateWireRequest**|  | 
 
 ### Return type
 
-[**InteracAccountResponse**](InteracAccountResponse.md)
+**WireAccountResponse**
 
 ### Authorization
 
@@ -74,14 +79,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | InteracAccountResponse |  -  |
+**201** | WireAccountResponse |  -  |
 **0** | Error |  -  |
 
 
-# **get_interac**
-> GetInteracResponse get_interac()
+# **get_wire**
+> GetWireResponse get_wire()
 
-Return the Interac accounts of a user
+Return the wire accounts
 
 ### Example
 
@@ -89,7 +94,7 @@ Return the Interac accounts of a user
 
 ```python
 import checkbook
-from checkbook.models.get_interac_response import GetInteracResponse
+from checkbook.models.get_wire_response import GetWireResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -103,15 +108,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Interac(api_client)
+    api_instance = checkbook.Wire(api_client)
 
     try:
-        # Get Interac accounts
-        api_response = api_instance.get_interac()
-        print("The response of Interac->get_interac:\n")
+        # Get wire accounts
+        api_response = api_instance.get_wire()
+        print("The response of Wire->get_wire:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Interac->get_interac: %s\n" % e)
+        print("Exception when calling Wire->get_wire: %s\n" % e)
 ```
 
 
@@ -122,7 +127,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetInteracResponse**](GetInteracResponse.md)
+**GetWireResponse**
 
 ### Authorization
 
@@ -137,14 +142,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | GetInteracResponse |  -  |
+**200** | GetWireResponse |  -  |
 **0** | Error |  -  |
 
 
-# **put_interac**
-> put_interac(interac_id, update_interac_request)
+# **put_wire**
+> put_wire(account_id, update_wire_request)
 
-Update an existing Interac account
+Update an existing wire account
 
 ### Example
 
@@ -152,7 +157,7 @@ Update an existing Interac account
 
 ```python
 import checkbook
-from checkbook.models.update_interac_request import UpdateInteracRequest
+from checkbook.models.update_wire_request import UpdateWireRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -166,15 +171,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Interac(api_client)
-    interac_id = "interac_id_example"  # str |
-    update_interac_request = {"name": "string"}  # UpdateInteracRequest |
+    api_instance = checkbook.Wire(api_client)
+    account_id = "account_id_example"  # str |
+    update_wire_request = {"name": "Checking account"}  # UpdateWireRequest |
 
     try:
-        # Update Interac account
-        api_instance.put_interac(interac_id, update_interac_request)
+        # Update Wire account
+        api_instance.put_wire(account_id, update_wire_request)
     except Exception as e:
-        print("Exception when calling Interac->put_interac: %s\n" % e)
+        print("Exception when calling Wire->put_wire: %s\n" % e)
 ```
 
 
@@ -184,8 +189,8 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **interac_id** | **str**|  | 
- **update_interac_request** | [**UpdateInteracRequest**](UpdateInteracRequest.md)|  | 
+ **account_id** | **str**|  | 
+ **update_wire_request** | **UpdateWireRequest**|  | 
 
 ### Return type
 
@@ -208,10 +213,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **remove_interac**
-> remove_interac(interac_id)
+# **remove_wire**
+> remove_wire(wire_id)
 
-Remove an existing Interac account
+Remove an existing wire account
 
 ### Example
 
@@ -232,14 +237,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Interac(api_client)
-    interac_id = "interac_id_example"  # str |
+    api_instance = checkbook.Wire(api_client)
+    wire_id = "wire_id_example"  # str |
 
     try:
-        # Remove Interac account
-        api_instance.remove_interac(interac_id)
+        # Remove wire account
+        api_instance.remove_wire(wire_id)
     except Exception as e:
-        print("Exception when calling Interac->remove_interac: %s\n" % e)
+        print("Exception when calling Wire->remove_wire: %s\n" % e)
 ```
 
 
@@ -249,7 +254,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **interac_id** | **str**|  | 
+ **wire_id** | **str**|  | 
 
 ### Return type
 

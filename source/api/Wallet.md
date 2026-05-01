@@ -61,11 +61,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_wallet_request** | [**CreateWalletRequest**](CreateWalletRequest.md)|  | 
+ **create_wallet_request** | **CreateWalletRequest**|  | 
 
 ### Return type
 
-[**CreateWalletResponse**](CreateWalletResponse.md)
+**CreateWalletResponse**
 
 ### Authorization
 
@@ -194,7 +194,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponse200**](InlineResponse200.md)
+**InlineResponse200**
 
 ### Authorization
 
@@ -259,7 +259,7 @@ with checkbook.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **wallet_id** | **str**| The ID of the wallet to be updated | 
- **update_wallet_request** | [**UpdateWalletRequest**](UpdateWalletRequest.md)|  | 
+ **update_wallet_request** | **UpdateWalletRequest**|  | 
 
 ### Return type
 

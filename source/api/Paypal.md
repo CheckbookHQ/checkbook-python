@@ -1,19 +1,19 @@
-# Wire 
-Link and manage wire accounts used as the destination for outbound wire transfers, intended for time-sensitive or high-value payments. Wires submitted before the 3:00 PM PT cutoff settle the same day.
+# Paypal 
+Link and manage PayPal accounts used as a destination for outbound payouts, identified by the email or phone number tied to the recipient's PayPal profile.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_wire**](Wire.md#add_wire) | **POST** /v3/account/wire | Create wire account
-[**get_wire**](Wire.md#get_wire) | **GET** /v3/account/wire | Get wire accounts
-[**put_wire**](Wire.md#put_wire) | **PUT** /v3/account/wire/{account_id} | Update Wire account
-[**remove_wire**](Wire.md#remove_wire) | **DELETE** /v3/account/wire/{wire_id} | Remove wire account
+[**add_paypal**](Paypal.md#add_paypal) | **POST** /v3/account/paypal | Create PayPal account
+[**get_paypal**](Paypal.md#get_paypal) | **GET** /v3/account/paypal | Get PayPal accounts
+[**put_paypal**](Paypal.md#put_paypal) | **PUT** /v3/account/paypal/{paypal_id} | Update PayPal account
+[**remove_paypal**](Paypal.md#remove_paypal) | **DELETE** /v3/account/paypal/{paypal_id} | Remove PayPal account
 
 
-# **add_wire**
-> WireAccountResponse add_wire(create_wire_request)
+# **add_paypal**
+> PaypalAccountResponse add_paypal(create_paypal_request)
 
-Create a new wire account
+Add a new Paypal account for a user
 
 ### Example
 
@@ -21,8 +21,8 @@ Create a new wire account
 
 ```python
 import checkbook
-from checkbook.models.create_wire_request import CreateWireRequest
-from checkbook.models.wire_account_response import WireAccountResponse
+from checkbook.models.create_paypal_request import CreatePaypalRequest
+from checkbook.models.paypal_account_response import PaypalAccountResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -36,21 +36,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Wire(api_client)
-    create_wire_request = {
-        "account": "428100000",
-        "name": "Checking account",
-        "routing": "021000021",
-        "type": "CHECKING",
-    }  # CreateWireRequest |
+    api_instance = checkbook.Paypal(api_client)
+    create_paypal_request = {"username": "john@example.com"}  # CreatePaypalRequest |
 
     try:
-        # Create wire account
-        api_response = api_instance.add_wire(create_wire_request)
-        print("The response of Wire->add_wire:\n")
+        # Create PayPal account
+        api_response = api_instance.add_paypal(create_paypal_request)
+        print("The response of Paypal->add_paypal:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Wire->add_wire: %s\n" % e)
+        print("Exception when calling Paypal->add_paypal: %s\n" % e)
 ```
 
 
@@ -60,11 +55,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_wire_request** | [**CreateWireRequest**](CreateWireRequest.md)|  | 
+ **create_paypal_request** | **CreatePaypalRequest**|  | 
 
 ### Return type
 
-[**WireAccountResponse**](WireAccountResponse.md)
+**PaypalAccountResponse**
 
 ### Authorization
 
@@ -79,14 +74,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | WireAccountResponse |  -  |
+**201** | PaypalAccountResponse |  -  |
 **0** | Error |  -  |
 
 
-# **get_wire**
-> GetWireResponse get_wire()
+# **get_paypal**
+> GetPaypalResponse get_paypal()
 
-Return the wire accounts
+Return the Paypal accounts of a user
 
 ### Example
 
@@ -94,7 +89,7 @@ Return the wire accounts
 
 ```python
 import checkbook
-from checkbook.models.get_wire_response import GetWireResponse
+from checkbook.models.get_paypal_response import GetPaypalResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -108,15 +103,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Wire(api_client)
+    api_instance = checkbook.Paypal(api_client)
 
     try:
-        # Get wire accounts
-        api_response = api_instance.get_wire()
-        print("The response of Wire->get_wire:\n")
+        # Get PayPal accounts
+        api_response = api_instance.get_paypal()
+        print("The response of Paypal->get_paypal:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling Wire->get_wire: %s\n" % e)
+        print("Exception when calling Paypal->get_paypal: %s\n" % e)
 ```
 
 
@@ -127,7 +122,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**GetWireResponse**](GetWireResponse.md)
+**GetPaypalResponse**
 
 ### Authorization
 
@@ -142,14 +137,14 @@ This endpoint does not need any parameter.
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | GetWireResponse |  -  |
+**200** | GetPaypalResponse |  -  |
 **0** | Error |  -  |
 
 
-# **put_wire**
-> put_wire(account_id, update_wire_request)
+# **put_paypal**
+> put_paypal(paypal_id, update_paypal_request)
 
-Update an existing wire account
+Update an existing Paypal account
 
 ### Example
 
@@ -157,7 +152,7 @@ Update an existing wire account
 
 ```python
 import checkbook
-from checkbook.models.update_wire_request import UpdateWireRequest
+from checkbook.models.update_paypal_request import UpdatePaypalRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -171,15 +166,15 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Wire(api_client)
-    account_id = "account_id_example"  # str |
-    update_wire_request = {"name": "Checking account"}  # UpdateWireRequest |
+    api_instance = checkbook.Paypal(api_client)
+    paypal_id = "paypal_id_example"  # str |
+    update_paypal_request = {"name": "string"}  # UpdatePaypalRequest |
 
     try:
-        # Update Wire account
-        api_instance.put_wire(account_id, update_wire_request)
+        # Update PayPal account
+        api_instance.put_paypal(paypal_id, update_paypal_request)
     except Exception as e:
-        print("Exception when calling Wire->put_wire: %s\n" % e)
+        print("Exception when calling Paypal->put_paypal: %s\n" % e)
 ```
 
 
@@ -189,8 +184,8 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **account_id** | **str**|  | 
- **update_wire_request** | [**UpdateWireRequest**](UpdateWireRequest.md)|  | 
+ **paypal_id** | **str**|  | 
+ **update_paypal_request** | **UpdatePaypalRequest**|  | 
 
 ### Return type
 
@@ -213,10 +208,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **remove_wire**
-> remove_wire(wire_id)
+# **remove_paypal**
+> remove_paypal(paypal_id)
 
-Remove an existing wire account
+Remove an existing PayPal account
 
 ### Example
 
@@ -237,14 +232,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.Wire(api_client)
-    wire_id = "wire_id_example"  # str |
+    api_instance = checkbook.Paypal(api_client)
+    paypal_id = "paypal_id_example"  # str |
 
     try:
-        # Remove wire account
-        api_instance.remove_wire(wire_id)
+        # Remove PayPal account
+        api_instance.remove_paypal(paypal_id)
     except Exception as e:
-        print("Exception when calling Wire->remove_wire: %s\n" % e)
+        print("Exception when calling Paypal->remove_paypal: %s\n" % e)
 ```
 
 
@@ -254,7 +249,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **wire_id** | **str**|  | 
+ **paypal_id** | **str**|  | 
 
 ### Return type
 

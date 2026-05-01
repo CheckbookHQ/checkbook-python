@@ -1,93 +1,24 @@
-# User 
-Onboard and manage users in your marketplace. Use this resource to manage a user's API keys, add KYC/KYB information, check user statuses, and customize their profile. Users do not need to sign in to Checkbook or maintain their own account to transact.
+# Approval 
+Submit and manage payments that must be approved by an authorized reviewer before funds move. All approval actions are logged for audit.
 
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**delete_api_key**](User.md#delete_api_key) | **DELETE** /v3/user/api_key/{key_id} | Delete API key for user
-[**delete_user**](User.md#delete_user) | **DELETE** /v3/user/{id} | Remove marketplace user
-[**get_api_keys**](User.md#get_api_keys) | **GET** /v3/user/api_key | Get API keys for user
-[**get_user**](User.md#get_user) | **GET** /v3/user | Get user details
-[**get_users**](User.md#get_users) | **GET** /v3/user/list | Get marketplace users
-[**new_api_key**](User.md#new_api_key) | **POST** /v3/user/api_key | Generate new API Key for user
-[**post_user**](User.md#post_user) | **POST** /v3/user | Create user
-[**post_user_signature**](User.md#post_user_signature) | **POST** /v3/user/signature | Add signature for user
-[**put_user**](User.md#put_user) | **PUT** /v3/user | Update user
-[**put_user_webhook**](User.md#put_user_webhook) | **PUT** /v3/user/webhook | Update a sandbox user status
+[**delete_approval_check**](Approval.md#delete_approval_check) | **DELETE** /v3/approval/{approval_id} | Remove payment approval
+[**get_approval_attachment**](Approval.md#get_approval_attachment) | **GET** /v3/approval/{approval_id}/attachment | Get attachment for payment approval
+[**get_approval_check**](Approval.md#get_approval_check) | **GET** /v3/approval/{approval_id} | Get payment approval
+[**get_approval_checks**](Approval.md#get_approval_checks) | **GET** /v3/approval | Get approval payments
+[**post_approval_digital**](Approval.md#post_approval_digital) | **POST** /v3/approval/digital | Create approval digital payment
+[**post_approval_multi**](Approval.md#post_approval_multi) | **POST** /v3/approval/multi | Create multi-party payment approval
+[**post_approval_physical**](Approval.md#post_approval_physical) | **POST** /v3/approval/physical | Create physical check approval
+[**post_approval_release**](Approval.md#post_approval_release) | **POST** /v3/approval/release | Approve payment
+[**put_approval_check**](Approval.md#put_approval_check) | **PUT** /v3/approval/{approval_id} | Update payment approval
 
 
-# **delete_api_key**
-> delete_api_key(key_id)
+# **delete_approval_check**
+> delete_approval_check(approval_id)
 
-Delete API key for user
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    key_id = "key_id_example"  # str |
-
-    try:
-        # Delete API key for user
-        api_instance.delete_api_key(key_id)
-    except Exception as e:
-        print("Exception when calling User->delete_api_key: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **key_id** | **str**|  | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**204** | No response body. |  -  |
-**0** | Error |  -  |
-
-
-# **delete_user**
-> delete_user(id)
-
-Delete a marketplace user. 
-> [!NOTE]
-> **Tip**  
-> The id that gets passed in needs to be the Checkbook system generated `id`, not the `user_id`. 
-> Users with active transactions may not be deleted.
+Cancel the specified check approval
 
 ### Example
 
@@ -108,14 +39,14 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    id = "id_example"  # str |
+    api_instance = checkbook.Approval(api_client)
+    approval_id = "approval_id_example"  # str |
 
     try:
-        # Remove marketplace user
-        api_instance.delete_user(id)
+        # Remove payment approval
+        api_instance.delete_approval_check(approval_id)
     except Exception as e:
-        print("Exception when calling User->delete_user: %s\n" % e)
+        print("Exception when calling Approval->delete_approval_check: %s\n" % e)
 ```
 
 
@@ -125,7 +56,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **str**|  | 
+ **approval_id** | **str**|  | 
 
 ### Return type
 
@@ -148,10 +79,10 @@ void (empty response body)
 **0** | Error |  -  |
 
 
-# **get_api_keys**
-> APIKeyListResponse get_api_keys()
+# **get_approval_attachment**
+> bytearray get_approval_attachment(approval_id)
 
-Return the API keys for the user
+Get the attachment for a payment approval
 
 ### Example
 
@@ -159,7 +90,6 @@ Return the API keys for the user
 
 ```python
 import checkbook
-from checkbook.models.api_key_list_response import APIKeyListResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -173,147 +103,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
+    api_instance = checkbook.Approval(api_client)
+    approval_id = "approval_id_example"  # str |
 
     try:
-        # Get API keys for user
-        api_response = api_instance.get_api_keys()
-        print("The response of User->get_api_keys:\n")
+        # Get attachment for payment approval
+        api_response = api_instance.get_approval_attachment(approval_id)
+        print("The response of Approval->get_approval_attachment:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling User->get_api_keys: %s\n" % e)
-```
-
-
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**APIKeyListResponse**](APIKeyListResponse.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Response fields for api key list |  -  |
-**0** | Error |  -  |
-
-
-# **get_user**
-> GetUserResponse get_user()
-
-Get user information
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.get_user_response import GetUserResponse
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-
-    try:
-        # Get user details
-        api_response = api_instance.get_user()
-        print("The response of User->get_user:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling User->get_user: %s\n" % e)
-```
-
-
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**GetUserResponse**](GetUserResponse.md)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Response fields for user retrieval |  -  |
-**0** | Error |  -  |
-
-
-# **get_users**
-> UserQueryResponse get_users(page=page, per_page=per_page, q=q, sort=sort)
-
-Return the marketplace users
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.user_query_response import UserQueryResponse
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    page = 1  # int | Page number (optional) (default to 1)
-    per_page = 50  # int | Items per page (optional) (default to 50)
-    q = "q_example"  # str | Query (optional)
-    sort = "sort_example"  # str | Sort (optional)
-
-    try:
-        # Get marketplace users
-        api_response = api_instance.get_users(
-            page=page, per_page=per_page, q=q, sort=sort
-        )
-        print("The response of User->get_users:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling User->get_users: %s\n" % e)
+        print("Exception when calling Approval->get_approval_attachment: %s\n" % e)
 ```
 
 
@@ -323,14 +122,168 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **approval_id** | **str**|  | 
+
+### Return type
+
+**bytearray**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/pdf, application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | PDF binary file |  -  |
+**0** | Error |  -  |
+
+
+# **get_approval_check**
+> GetApprovalResponse get_approval_check(approval_id)
+
+Get the specified payment approval
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.get_approval_response import GetApprovalResponse
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Approval(api_client)
+    approval_id = "approval_id_example"  # str |
+
+    try:
+        # Get payment approval
+        api_response = api_instance.get_approval_check(approval_id)
+        print("The response of Approval->get_approval_check:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling Approval->get_approval_check: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **approval_id** | **str**|  | 
+
+### Return type
+
+**GetApprovalResponse**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | GetApprovalResponse |  -  |
+**0** | Error |  -  |
+
+
+# **get_approval_checks**
+> GetApprovalsResponse get_approval_checks(direction=direction, end_date=end_date, page=page, per_page=per_page, q=q, sort=sort, start_date=start_date, status=status)
+
+Return approvals
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.get_approvals_response import GetApprovalsResponse
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Approval(api_client)
+    direction = "OUTGOING"  # str | Direction (optional)
+    end_date = "2013-10-20"  # date | End date (optional)
+    page = 1  # int | Page number (optional) (default to 1)
+    per_page = 50  # int | Items per page (optional) (default to 50)
+    q = "payment"  # str | Query (optional)
+    sort = "+DATE"  # str | Sort (optional)
+    start_date = "2013-10-20"  # date | Start date (optional)
+    status = "PAID"  # str | Status (optional)
+
+    try:
+        # Get approval payments
+        api_response = api_instance.get_approval_checks(
+            direction=direction,
+            end_date=end_date,
+            page=page,
+            per_page=per_page,
+            q=q,
+            sort=sort,
+            start_date=start_date,
+            status=status,
+        )
+        print("The response of Approval->get_approval_checks:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling Approval->get_approval_checks: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **direction** | **str**| Direction | [optional] 
+ **end_date** | **date**| End date | [optional] 
  **page** | **int**| Page number | [optional] [default to 1]
  **per_page** | **int**| Items per page | [optional] [default to 50]
  **q** | **str**| Query | [optional] 
  **sort** | **str**| Sort | [optional] 
+ **start_date** | **date**| Start date | [optional] 
+ **status** | **str**| Status | [optional] 
 
 ### Return type
 
-[**UserQueryResponse**](UserQueryResponse.md)
+**GetApprovalsResponse**
 
 ### Authorization
 
@@ -345,14 +298,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Response fields for user query |  -  |
+**200** | GetApprovalsResponse |  -  |
 **0** | Error |  -  |
 
 
-# **new_api_key**
-> NewApiKeyResponse new_api_key(new_api_key_request)
+# **post_approval_digital**
+> GetApprovalResponse post_approval_digital(create_digital_check_request)
 
-Generate new API keys for the user
+Create a new approval digital payment
 
 ### Example
 
@@ -360,8 +313,8 @@ Generate new API keys for the user
 
 ```python
 import checkbook
-from checkbook.models.new_api_key_request import NewApiKeyRequest
-from checkbook.models.new_api_key_response import NewApiKeyResponse
+from checkbook.models.create_digital_check_request import CreateDigitalCheckRequest
+from checkbook.models.get_approval_response import GetApprovalResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -375,16 +328,21 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    new_api_key_request = {"expiration_date": null, "name": null}  # NewApiKeyRequest |
+    api_instance = checkbook.Approval(api_client)
+    create_digital_check_request = {
+        "name": "Dwight Schrute",
+        "amount": 150.0,
+        "recipient": "dwight@example.com",
+        "deposit_options": ["BANK", "RTP"],
+    }  # CreateDigitalCheckRequest |
 
     try:
-        # Generate new API Key for user
-        api_response = api_instance.new_api_key(new_api_key_request)
-        print("The response of User->new_api_key:\n")
+        # Create approval digital payment
+        api_response = api_instance.post_approval_digital(create_digital_check_request)
+        print("The response of Approval->post_approval_digital:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling User->new_api_key: %s\n" % e)
+        print("Exception when calling Approval->post_approval_digital: %s\n" % e)
 ```
 
 
@@ -394,11 +352,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **new_api_key_request** | [**NewApiKeyRequest**](NewApiKeyRequest.md)|  | 
+ **create_digital_check_request** | **CreateDigitalCheckRequest**|  | 
 
 ### Return type
 
-[**NewApiKeyResponse**](NewApiKeyResponse.md)
+**GetApprovalResponse**
 
 ### Authorization
 
@@ -413,18 +371,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | NewApiKeyResponse |  -  |
+**201** | GetApprovalResponse |  -  |
 **0** | Error |  -  |
 
 
-# **post_user**
-> CreateUserResponse post_user(create_user_request)
+# **post_approval_multi**
+> GetApprovalResponse post_approval_multi(create_multi_check_request)
 
-Create a new marketplace user.  
-> [!NOTE]
-> **Common Errors**
->
-> - **`403: FORBIDDEN`**: Please ensure you are using the Marketplace Owner's keys. If the `403` error persists, it may indicate that marketplace is not enabled for your account or you do not have an active billing bank account onboarded. Contact support@checkbook.io for more details.
+Create a new multi-party payment approval
 
 ### Example
 
@@ -432,8 +386,8 @@ Create a new marketplace user.
 
 ```python
 import checkbook
-from checkbook.models.create_user_request import CreateUserRequest
-from checkbook.models.create_user_response import CreateUserResponse
+from checkbook.models.create_multi_check_request import CreateMultiCheckRequest
+from checkbook.models.get_approval_response import GetApprovalResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -447,16 +401,26 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    create_user_request = {"name": "string", "user_id": "string"}  # CreateUserRequest |
+    api_instance = checkbook.Approval(api_client)
+    create_multi_check_request = {
+        "account": "string",
+        "amount": 5.23,
+        "attachment": null,
+        "comment": "string",
+        "deposit_options": [["MAIL", "CARD"]],
+        "description": "Example memo",
+        "number": "5001",
+        "recipients": [null],
+        "remittance_advice": [null],
+    }  # CreateMultiCheckRequest |
 
     try:
-        # Create user
-        api_response = api_instance.post_user(create_user_request)
-        print("The response of User->post_user:\n")
+        # Create multi-party payment approval
+        api_response = api_instance.post_approval_multi(create_multi_check_request)
+        print("The response of Approval->post_approval_multi:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling User->post_user: %s\n" % e)
+        print("Exception when calling Approval->post_approval_multi: %s\n" % e)
 ```
 
 
@@ -466,11 +430,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **create_user_request** | [**CreateUserRequest**](CreateUserRequest.md)|  | 
+ **create_multi_check_request** | **CreateMultiCheckRequest**|  | 
 
 ### Return type
 
-[**CreateUserResponse**](CreateUserResponse.md)
+**GetApprovalResponse**
 
 ### Authorization
 
@@ -485,14 +449,14 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Response fields for user creation |  -  |
+**201** | GetApprovalResponse |  -  |
 **0** | Error |  -  |
 
 
-# **post_user_signature**
-> post_user_signature(signature_request)
+# **post_approval_physical**
+> GetApprovalResponse post_approval_physical(create_physical_check_request)
 
-Add signature
+Create a new physical check approval
 
 ### Example
 
@@ -500,7 +464,8 @@ Add signature
 
 ```python
 import checkbook
-from checkbook.models.signature_request import SignatureRequest
+from checkbook.models.create_physical_check_request import CreatePhysicalCheckRequest
+from checkbook.models.get_approval_response import GetApprovalResponse
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -514,14 +479,29 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    signature_request = {"signature": "string"}  # SignatureRequest |
+    api_instance = checkbook.Approval(api_client)
+    create_physical_check_request = {
+        "account": "string",
+        "amount": 5.23,
+        "attachment": null,
+        "comment": "string",
+        "description": "Example memo",
+        "mail_type": "USPS_FIRST_CLASS",
+        "name": "Widgets Inc.",
+        "number": "5001",
+        "recipient": null,
+        "remittance_advice": "string",
+    }  # CreatePhysicalCheckRequest |
 
     try:
-        # Add signature for user
-        api_instance.post_user_signature(signature_request)
+        # Create physical check approval
+        api_response = api_instance.post_approval_physical(
+            create_physical_check_request
+        )
+        print("The response of Approval->post_approval_physical:\n")
+        pprint(api_response)
     except Exception as e:
-        print("Exception when calling User->post_user_signature: %s\n" % e)
+        print("Exception when calling Approval->post_approval_physical: %s\n" % e)
 ```
 
 
@@ -531,11 +511,11 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **signature_request** | [**SignatureRequest**](SignatureRequest.md)|  | 
+ **create_physical_check_request** | **CreatePhysicalCheckRequest**|  | 
 
 ### Return type
 
-void (empty response body)
+**GetApprovalResponse**
 
 ### Authorization
 
@@ -550,17 +530,14 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | No response body. |  -  |
+**201** | GetApprovalResponse |  -  |
 **0** | Error |  -  |
 
 
-# **put_user**
-> put_user(update_user_request)
+# **post_approval_release**
+> GetCheckResponse post_approval_release(release_check_request)
 
-Update existing user information.  
-> [!NOTE]
-> **Note**  
-> This endpoint is used for updating a user's KYB/KYC information. Checkbook validates this information asynchronously.
+Create a live payment from an approval
 
 ### Example
 
@@ -568,7 +545,8 @@ Update existing user information.
 
 ```python
 import checkbook
-from checkbook.models.update_user_request import UpdateUserRequest
+from checkbook.models.get_check_response import GetCheckResponse
+from checkbook.models.release_check_request import ReleaseCheckRequest
 from checkbook.rest import ApiException
 from pprint import pprint
 
@@ -582,21 +560,16 @@ configuration = checkbook.Configuration(
 # Enter a context with an instance of the API client
 with checkbook.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    update_user_request = {
-        "bank": null,
-        "brand": null,
-        "developer": null,
-        "merchant": null,
-        "payment": null,
-        "user": null,
-    }  # UpdateUserRequest |
+    api_instance = checkbook.Approval(api_client)
+    release_check_request = {"id": "string"}  # ReleaseCheckRequest |
 
     try:
-        # Update user
-        api_instance.put_user(update_user_request)
+        # Approve payment
+        api_response = api_instance.post_approval_release(release_check_request)
+        print("The response of Approval->post_approval_release:\n")
+        pprint(api_response)
     except Exception as e:
-        print("Exception when calling User->put_user: %s\n" % e)
+        print("Exception when calling Approval->post_approval_release: %s\n" % e)
 ```
 
 
@@ -606,7 +579,81 @@ with checkbook.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **update_user_request** | [**UpdateUserRequest**](UpdateUserRequest.md)|  | 
+ **release_check_request** | **ReleaseCheckRequest**|  | 
+
+### Return type
+
+**GetCheckResponse**
+
+### Authorization
+
+[token](../README.md#token)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | GetCheckResponse |  -  |
+**0** | Error |  -  |
+
+
+# **put_approval_check**
+> put_approval_check(approval_id, update_approval_request)
+
+Update the specified payment approval
+
+### Example
+
+* Api Key Authentication (token):
+
+```python
+import checkbook
+from checkbook.models.update_approval_request import UpdateApprovalRequest
+from checkbook.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://demo.checkbook.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = checkbook.Configuration(
+    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
+)
+
+
+# Enter a context with an instance of the API client
+with checkbook.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = checkbook.Approval(api_client)
+    approval_id = "approval_id_example"  # str |
+    update_approval_request = {
+        "account": "string",
+        "amount": 0.01,
+        "description": null,
+        "name": "string",
+        "number": "string",
+        "recipient": "string",
+    }  # UpdateApprovalRequest |
+
+    try:
+        # Update payment approval
+        api_instance.put_approval_check(approval_id, update_approval_request)
+    except Exception as e:
+        print("Exception when calling Approval->put_approval_check: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **approval_id** | **str**|  | 
+ **update_approval_request** | **UpdateApprovalRequest**|  | 
 
 ### Return type
 
@@ -626,73 +673,6 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | No response body. |  -  |
-**0** | Error |  -  |
-
-
-# **put_user_webhook**
-> put_user_webhook(trigger_user_webhook_request)
-
-Update a user's status in the sandbox environment.
-
-### Example
-
-* Api Key Authentication (token):
-
-```python
-import checkbook
-from checkbook.models.trigger_user_webhook_request import TriggerUserWebhookRequest
-from checkbook.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://demo.checkbook.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = checkbook.Configuration(
-    host="https://demo.checkbook.io", api_key={"token": "{public_key}:{private_key}"}
-)
-
-
-# Enter a context with an instance of the API client
-with checkbook.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = checkbook.User(api_client)
-    trigger_user_webhook_request = {
-        "status": "UNVERIFIED"
-    }  # TriggerUserWebhookRequest |
-
-    try:
-        # Update a sandbox user status
-        api_instance.put_user_webhook(trigger_user_webhook_request)
-    except Exception as e:
-        print("Exception when calling User->put_user_webhook: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **trigger_user_webhook_request** | [**TriggerUserWebhookRequest**](TriggerUserWebhookRequest.md)|  | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[token](../README.md#token)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**204** | No response body. |  -  |
 **0** | Error |  -  |
 
 
