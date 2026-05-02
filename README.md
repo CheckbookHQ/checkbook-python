@@ -1,12 +1,16 @@
 # Checkbook Python Client
+<!-- BEGIN: intro -->
 The Checkbook API enables businesses to programmatically send and receive payments using digital checks and other payment methods. With Checkbook, you can automate payment workflows, disburse funds instantly, and manage transactions securely—all without the delays and costs of traditional paper checks.
+<!-- END: intro -->
 
 
-## Requirements.
+<!-- BEGIN: install -->
+## Installation & Usage
+
+### Requirements 
 
 Python 3.9+
 
-## Installation & Usage
 ### pip install
 
 If the python package is hosted on a repository, you can install directly using:
@@ -36,9 +40,11 @@ Secret Key (Private Key): This key is private and should never be exposed in cli
 Webhook Key: This key is used for verifying webhook signatures and ensuring the webhook originated from Checkbook. It can only be viewed after generating an API key.
 
 Please securely save your keys immediately after generation, as we do not provide a way to retrieve your secret key after it has been created. Should you lose your keys, you can always generate a new one.
+<!-- END: install -->
 
 
 ## Environment
+<!-- BEGIN: environment -->
 
 Checkbook supports three environments: demo, sandbox, and production.
 
@@ -49,9 +55,11 @@ Each of these environments can be accessed using their respective url: demo.chec
 - The sandbox environment is used for early development and integration testing. It allows developers to experiment with the API, validate request/response behavior, and build workflows without creating real payments or moving funds. Data in sandbox is isolated and non-production.
 
 - The production environment is used for live applications and real payment processing. All API calls in this environment result in actual transactions and should only be used once your integration has been fully tested and approved.
+<!-- END: environment -->
 
 
-## token
+## Authentication
+<!-- BEGIN: auth -->
 
 The Checkbook API authenticates requests with an API key passed in the `Authorization` header as `{public_key}:{secret_key}`. The Python SDK accepts this via the `api_key` parameter on `Configuration`, keyed by the security scheme name `token`:
 
@@ -62,9 +70,11 @@ configuration = checkbook.Configuration(
 ```
 
 See [Obtaining Your API Keys](#obtaining-your-api-keys) for how to generate these values.
+<!-- END: auth -->
 
 
 ## Getting Started
+<!-- BEGIN: quickstart -->
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
@@ -136,8 +146,11 @@ with checkbook.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when running demo script: %s\n" % e)
 ```
+<!-- END: quickstart -->
 
-## Documentation for Checkbook API Endpoints
+
+## API Endpoints
+<!-- BEGIN: api-endpoints -->
 
 ### Approval
 
@@ -323,5 +336,6 @@ with checkbook.ApiClient(configuration) as api_client:
 | **get_wire** | **GET** /v3/account/wire | Get wire accounts |
 | **put_wire** | **PUT** /v3/account/wire/{account_id} | Update Wire account |
 | **remove_wire** | **DELETE** /v3/account/wire/{wire_id} | Remove wire account |
+<!-- END: api-endpoints -->
 
 
