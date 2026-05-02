@@ -14,6 +14,7 @@ installation
 environment
 authentication
 quickstart
+api-endpoints
 ```
 
 ```{toctree}
