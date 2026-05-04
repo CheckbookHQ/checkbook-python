@@ -4,8 +4,8 @@ The Checkbook API enables businesses to programmatically send and receive paymen
 <!-- END: intro -->
 
 
+## Installation
 <!-- BEGIN: install -->
-## Installation & Usage
 
 ### Requirements 
 
