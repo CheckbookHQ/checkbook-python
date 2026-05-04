@@ -22,7 +22,6 @@ api-endpoints
 :caption: API Reference
 :hidden:
 
-api-endpoints
 api/Approval
 api/Bank
 api/Card
