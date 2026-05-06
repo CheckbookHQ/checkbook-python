@@ -67,24 +67,39 @@ configuration = checkbook.Configuration(
 See **Obtaining Your API Keys** for how to generate these values.
 <!-- END: auth -->
 
+## Idempotent Requests
+<!-- BEGIN: idempotency -->
+To ensure the reliability and consistency of your integrations, the Checkbook API supports idempotent requests for all POST requests (e.g., creating payments).
+
+To make a request idempotent, you need to include a unique identifier in the request header:
+Idempotency-Key Header: You must generate a unique string for each request that you want to be idempotent and include it in the Idempotency-Key HTTP header.
+
+**The idempotency key is valid for 24 hours. After that, using the same key will result in a new request.**
+<!-- END: idempotency -->
 
 ## Getting Started
 <!-- BEGIN: quickstart -->
 Please follow the installation procedure and then run the following:
 
 ```python
+import uuid
+
 import checkbook
 from pprint import pprint
 
 from checkbook.api.bank import Bank
 from checkbook.api.payment import Payment
 
+
+def set_idempotency_key(api_client):
+    api_client.set_default_header("Idempotency-Key", str(uuid.uuid4()))
+
 # Defining the host is optional and defaults to https://demo.checkbook.io
 # See configuration.py for a list of all supported configuration parameters.
 configuration = checkbook.Configuration(
     host="https://api.sandbox.checkbook.io",
     api_key={
-        "token": "{PUBLIC_KEY_HERE}:{SECRET_KEY_HERE}"
+        "token": "50ebf57067644829a330bcc88b9bc6dc:d6LM5eymFgfke2v5O1ebmUC7IdMlVg"
     },
 )
 
@@ -100,6 +115,7 @@ with checkbook.ApiClient(configuration) as api_client:
 
     try:
         # Add bank account
+        set_idempotency_key(api_client)
         api_response = api_instance.post_bank(create_bank_request)
         pprint(api_response)
         bank_id = api_response.id
@@ -108,6 +124,7 @@ with checkbook.ApiClient(configuration) as api_client:
         # Release Microdeposits
         api_instance = Bank(api_client)
         bank_release_request = {"account": bank_id}  # BankReleaseRequest |
+        set_idempotency_key(api_client)
         api_instance.post_bank_release(bank_release_request)
         print("Released micro deposits!")
 
@@ -117,6 +134,7 @@ with checkbook.ApiClient(configuration) as api_client:
             "amount_1": 0.07,
             "amount_2": 0.15,
         }  # BankVerifyRequest |
+        set_idempotency_key(api_client)
         api_instance.post_bank_verify(bank_verify_request)
         print("Bank account successfully verified!")
 
@@ -133,6 +151,7 @@ with checkbook.ApiClient(configuration) as api_client:
             "deposit_options": ["BANK"],
         }  # CreateDigitalCheckRequest |
 
+        set_idempotency_key(api_client)
         api_response = api_instance.post_check_digital(create_digital_check_request)
         print("The response of Payment->post_check_digital:\n")
         pprint(api_response)
