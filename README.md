@@ -67,6 +67,15 @@ configuration = checkbook.Configuration(
 See **Obtaining Your API Keys** for how to generate these values.
 <!-- END: auth -->
 
+## Idempotent Requests
+<!-- BEGIN: idempotency -->
+To ensure the reliability and consistency of your integrations, the Checkbook API supports idempotent requests for all POST requests (e.g., creating payments).
+
+To make a request idempotent, you need to include a unique identifier in the request header:
+Idempotency-Key Header: You must generate a unique string for each request that you want to be idempotent and include it in the Idempotency-Key HTTP header.
+
+**The idempotency key is valid for 24 hours. After that, using the same key will result in a new request.**
+<!-- END: idempotency -->
 
 ## Getting Started
 <!-- BEGIN: quickstart -->
@@ -78,6 +87,7 @@ from pprint import pprint
 
 from checkbook.api.bank import Bank
 from checkbook.api.payment import Payment
+
 
 # Defining the host is optional and defaults to https://demo.checkbook.io
 # See configuration.py for a list of all supported configuration parameters.
@@ -100,7 +110,8 @@ with checkbook.ApiClient(configuration) as api_client:
 
     try:
         # Add bank account
-        api_response = api_instance.post_bank(create_bank_request)
+        api_response = api_instance.post_bank(create_bank_request,
+            _headers={"Idempotency-Key": "user_123_bank_456"})
         pprint(api_response)
         bank_id = api_response.id
         print("Bank Id:", bank_id)
@@ -133,7 +144,8 @@ with checkbook.ApiClient(configuration) as api_client:
             "deposit_options": ["BANK"],
         }  # CreateDigitalCheckRequest |
 
-        api_response = api_instance.post_check_digital(create_digital_check_request)
+        api_response = api_instance.post_check_digital(create_digital_check_request,
+            _headers={"Idempotency-Key": "user_123_payment_456"})
         print("The response of Payment->post_check_digital:\n")
         pprint(api_response)
 

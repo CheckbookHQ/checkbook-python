@@ -14,6 +14,7 @@
 installation
 environment
 authentication
+idempotency
 quickstart
 api-endpoints
 ```
