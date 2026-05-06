@@ -99,7 +99,7 @@ def set_idempotency_key(api_client):
 configuration = checkbook.Configuration(
     host="https://api.sandbox.checkbook.io",
     api_key={
-        "token": "50ebf57067644829a330bcc88b9bc6dc:d6LM5eymFgfke2v5O1ebmUC7IdMlVg"
+        "token": "{PUBLIC_KEY_HERE}:{SECRET_KEY_HERE}"
     },
 )
 
