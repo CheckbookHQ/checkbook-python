@@ -82,17 +82,12 @@ Idempotency-Key Header: You must generate a unique string for each request that 
 Please follow the installation procedure and then run the following:
 
 ```python
-import uuid
-
 import checkbook
 from pprint import pprint
 
 from checkbook.api.bank import Bank
 from checkbook.api.payment import Payment
 
-
-def set_idempotency_key(api_client):
-    api_client.set_default_header("Idempotency-Key", str(uuid.uuid4()))
 
 # Defining the host is optional and defaults to https://demo.checkbook.io
 # See configuration.py for a list of all supported configuration parameters.
@@ -115,8 +110,8 @@ with checkbook.ApiClient(configuration) as api_client:
 
     try:
         # Add bank account
-        set_idempotency_key(api_client)
-        api_response = api_instance.post_bank(create_bank_request)
+        api_response = api_instance.post_bank(create_bank_request,
+            _headers={"Idempotency-Key": "user_123_bank_456"})
         pprint(api_response)
         bank_id = api_response.id
         print("Bank Id:", bank_id)
@@ -124,7 +119,6 @@ with checkbook.ApiClient(configuration) as api_client:
         # Release Microdeposits
         api_instance = Bank(api_client)
         bank_release_request = {"account": bank_id}  # BankReleaseRequest |
-        set_idempotency_key(api_client)
         api_instance.post_bank_release(bank_release_request)
         print("Released micro deposits!")
 
@@ -134,7 +128,6 @@ with checkbook.ApiClient(configuration) as api_client:
             "amount_1": 0.07,
             "amount_2": 0.15,
         }  # BankVerifyRequest |
-        set_idempotency_key(api_client)
         api_instance.post_bank_verify(bank_verify_request)
         print("Bank account successfully verified!")
 
@@ -151,8 +144,8 @@ with checkbook.ApiClient(configuration) as api_client:
             "deposit_options": ["BANK"],
         }  # CreateDigitalCheckRequest |
 
-        set_idempotency_key(api_client)
-        api_response = api_instance.post_check_digital(create_digital_check_request)
+        api_response = api_instance.post_check_digital(create_digital_check_request,
+            _headers={"Idempotency-Key": "user_123_payment_456"})
         print("The response of Payment->post_check_digital:\n")
         pprint(api_response)
 
